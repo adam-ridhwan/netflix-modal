@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { X } from 'lucide-react';
 import { createPortal } from 'react-dom';
 
 import { delay } from '@/lib/utils';
@@ -56,7 +56,7 @@ const Modal = ({ option }: ModalProps) => {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') router.push('/home');
+      if (event.key === 'Escape') router.push('/home', { scroll: false });
     };
 
     document.addEventListener('keydown', handleKeyDown);
@@ -77,9 +77,12 @@ const Modal = ({ option }: ModalProps) => {
     >
       <div className='grid size-full place-items-center border-2 border-white bg-black/75'>
         <p className='text-8xl'>{option}</p>
-        <Link href='/home' className='absolute right-5 top-5'>
-          X
-        </Link>
+        <button
+          onClick={() => router.push('/home', { scroll: false })}
+          className='absolute right-5 top-5 grid size-10 place-items-center rounded-full bg-gray-700 hover:bg-gray-600'
+        >
+          <X />
+        </button>
       </div>
     </div>,
     document.body
