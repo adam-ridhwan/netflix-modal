@@ -7,7 +7,12 @@ type ModalPageProps = {
   };
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isEmpty = (obj: any) => Object.keys(obj).length === 0;
+
 const ModalPage = async ({ params }: ModalPageProps) => {
+  if (isEmpty(params)) return null;
+
   const id = params.slug[0];
   if (!options.includes(id)) return null;
 

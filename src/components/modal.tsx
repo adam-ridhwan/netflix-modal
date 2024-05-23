@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { createPortal } from 'react-dom';
 
 import { delay } from '@/lib/utils';
@@ -18,6 +19,7 @@ type ElementPosition = {
 };
 
 const Modal = ({ option }: ModalProps) => {
+  const router = useRouter();
   const [mounted, setMounted] = useState(false);
 
   const [elementPosition, setElementPosition] =
@@ -52,6 +54,15 @@ const Modal = ({ option }: ModalProps) => {
     })();
   }, [option]);
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') router.push('/home');
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  });
+
   if (!mounted) return null;
 
   return createPortal(
@@ -66,7 +77,7 @@ const Modal = ({ option }: ModalProps) => {
     >
       <div className='grid size-full place-items-center border-2 border-white bg-black/75'>
         <p className='text-8xl'>{option}</p>
-        <Link href='/' className='absolute right-5 top-5'>
+        <Link href='/home' className='absolute right-5 top-5'>
           X
         </Link>
       </div>
