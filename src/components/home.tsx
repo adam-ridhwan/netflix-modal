@@ -10,7 +10,7 @@ const Home = () => {
           id={option}
           key={option}
           href={`/${option}`}
-          className='flex aspect-video min-w-full items-center justify-center rounded-lg border-2 border-white'
+          className='flex aspect-video min-w-full items-center justify-center rounded-lg bg-secondary'
         >
           <p className='text-8xl'>{option}</p>
         </Link>

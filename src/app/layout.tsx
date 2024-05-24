@@ -20,10 +20,10 @@ type RootLayoutProps = {
 
 export default function RootLayout({ children, modal }: RootLayoutProps) {
   return (
-    <html lang='en' className='dark' style={{ colorScheme: 'dark' }}>
+    <html lang='en'>
       <body
         className={cn(
-          `${inter.className} dark relative flex min-h-dvh flex-col items-center justify-center overflow-x-hidden bg-black p-10`
+          `${inter.className} relative flex min-h-dvh flex-col items-center justify-center overflow-x-hidden bg-white p-10`
         )}
       >
         {children}

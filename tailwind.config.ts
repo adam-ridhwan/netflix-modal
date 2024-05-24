@@ -57,23 +57,18 @@ module.exports = {
         sm: 'calc(var(--radius) - 4px)',
       },
       keyframes: {
-        'accordion-down': {
-          from: { height: 0 },
-          to: { height: 'var(--radix-accordion-content-height)' },
-        },
-        'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: 0 },
-        },
         fadeIn: {
           '0%': { backgroundColor: 'rgba(0, 0, 0, 0)' },
-          '100%': { backgroundColor: 'rgba(0, 0, 0, 0.25)' },
+          '100%': { backgroundColor: 'rgba(0, 0, 0, 0.75)' },
+        },
+        sizeExpand: {
+          '0%': { width: '100%', height: '100%' },
+          '100%': { width: '80%', height: '80%' },
         },
       },
       animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
         fadeIn: 'fadeIn 0.5s forwards',
+        sizeExpand: 'sizeExpand 0.5s forwards 0.05s',
       },
     },
   },

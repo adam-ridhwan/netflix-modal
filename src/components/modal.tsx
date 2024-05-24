@@ -6,12 +6,13 @@ import { X } from 'lucide-react';
 import { createPortal } from 'react-dom';
 
 import { delay } from '@/lib/utils';
+import Overlay from '@/components/overlay';
 
 type ModalProps = {
   option: string;
 };
 
-type ElementPosition = {
+type Position = {
   width: string;
   height: string;
   top: number;
@@ -22,8 +23,12 @@ const Modal = ({ option }: ModalProps) => {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
 
-  const [elementPosition, setElementPosition] =
-    useState<ElementPosition | null>(null);
+  const [position, setPosition] = useState<Position>({
+    width: '',
+    height: '',
+    top: 0,
+    left: 0,
+  });
 
   useEffect(() => setMounted(true), []);
 
@@ -36,7 +41,7 @@ const Modal = ({ option }: ModalProps) => {
       const viewportWidth = window.innerWidth;
       const viewportHeight = window.innerHeight;
 
-      setElementPosition({
+      setPosition({
         width: `${(rect.width / viewportWidth) * 100}%`,
         height: `${(rect.height / viewportHeight) * 100}%`,
         top: rect.top,
@@ -45,9 +50,9 @@ const Modal = ({ option }: ModalProps) => {
 
       await delay(50);
 
-      setElementPosition({
-        width: `100%`,
-        height: `100%`,
+      setPosition({
+        width: '100%',
+        height: '100%',
         top: 0,
         left: 0,
       });
@@ -66,25 +71,25 @@ const Modal = ({ option }: ModalProps) => {
   if (!mounted) return null;
 
   return createPortal(
-    <div
-      className='animate-fadeIn fixed z-50 grid place-items-center transition-all duration-700'
-      style={{
-        height: elementPosition?.height,
-        width: elementPosition?.width,
-        top: elementPosition?.top,
-        left: elementPosition?.left,
-      }}
-    >
-      <div className='grid size-full place-items-center border-2 border-white bg-black/75'>
-        <p className='text-8xl'>{option}</p>
-        <button
-          onClick={() => router.push('/home', { scroll: false })}
-          className='absolute right-5 top-5 grid size-10 place-items-center rounded-full bg-gray-700 hover:bg-gray-600'
-        >
-          <X />
-        </button>
+    <>
+      <Overlay />
+
+      <div
+        className='fixed z-50 grid place-items-center transition-all duration-500'
+        style={position}
+      >
+        <div className='animate-sizeExpand relative grid size-full place-items-center rounded-lg bg-secondary'>
+          <p className='text-8xl'>{option}</p>
+
+          <button
+            onClick={() => router.push('/home', { scroll: false })}
+            className='absolute right-2 top-2 grid size-10 place-items-center rounded-full bg-primary/75 transition-colors hover:bg-primary/50'
+          >
+            <X className='stroke-secondary' />
+          </button>
+        </div>
       </div>
-    </div>,
+    </>,
     document.body
   );
 };
