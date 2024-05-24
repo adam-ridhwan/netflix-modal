@@ -76,6 +76,13 @@ export const useModalPosition = (
         left: finalLeft,
         transition: 'top 0.5s, left 0.5s, width 0.5s, transform 0.5s',
       });
+
+      await delay(500);
+
+      setPosition(prev => ({
+        ...prev,
+        transition: '',
+      }));
     })();
 
     // eslint-disable-next-line
