@@ -1,10 +1,15 @@
 import Link from 'next/link';
 
-import { options } from '@/lib/utils';
+import { cn, options } from '@/lib/utils';
 
-const Home = () => {
+export default function Home() {
   return (
-    <main className='place-item-center grid size-full flex-col gap-8 sm:grid-cols-3'>
+    <main
+      className={cn(
+        'place-item-center grid size-full flex-col gap-8',
+        'sm:grid-cols-3'
+      )}
+    >
       {options.map(option => (
         <Link
           id={option}
@@ -17,6 +22,4 @@ const Home = () => {
       ))}
     </main>
   );
-};
-
-export default Home;
+}

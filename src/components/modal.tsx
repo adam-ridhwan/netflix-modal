@@ -1,97 +1,50 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { X } from 'lucide-react';
 import { createPortal } from 'react-dom';
 
-import { delay } from '@/lib/utils';
+import { useClickOutside } from '@/hooks/use-click-outside';
+import { useEscapeKey } from '@/hooks/use-escape-key';
+import { useModalPosition } from '@/hooks/use-modal-position';
 import Overlay from '@/components/overlay';
 
 type ModalProps = {
   option: string;
 };
 
-type Position = {
-  width: string;
-  height: string;
-  top: number;
-  left: number;
-};
+export default function Modal({ option }: ModalProps) {
+  const { push } = useRouter();
+  const modalRef = useRef<HTMLDivElement>(null);
 
-const Modal = ({ option }: ModalProps) => {
-  const router = useRouter();
-  const [mounted, setMounted] = useState(false);
+  const handleNavigateHome = () => push('/home', { scroll: false });
 
-  const [position, setPosition] = useState<Position>({
-    width: '',
-    height: '',
-    top: 0,
-    left: 0,
-  });
+  const { position } = useModalPosition(modalRef, option);
 
-  useEffect(() => setMounted(true), []);
+  useClickOutside(modalRef, handleNavigateHome);
 
-  useEffect(() => {
-    const node = document.getElementById(option);
-    if (!node) return;
-
-    (async () => {
-      const rect = node.getBoundingClientRect();
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-
-      setPosition({
-        width: `${(rect.width / viewportWidth) * 100}%`,
-        height: `${(rect.height / viewportHeight) * 100}%`,
-        top: rect.top,
-        left: rect.left,
-      });
-
-      await delay(50);
-
-      setPosition({
-        width: '100%',
-        height: '100%',
-        top: 0,
-        left: 0,
-      });
-    })();
-  }, [option]);
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') router.push('/home', { scroll: false });
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  });
-
-  if (!mounted) return null;
+  useEscapeKey(handleNavigateHome);
 
   return createPortal(
     <>
       <Overlay />
 
       <div
-        className='fixed z-50 grid place-items-center transition-all duration-500'
+        ref={modalRef}
+        className='fixed z-50 grid min-h-[98%] place-items-center divide-y rounded-t-lg bg-secondary'
         style={position}
       >
-        <div className='animate-sizeExpand relative grid size-full place-items-center rounded-lg bg-secondary'>
-          <p className='text-8xl'>{option}</p>
+        <p className='text-8xl'>{option}</p>
 
-          <button
-            onClick={() => router.push('/home', { scroll: false })}
-            className='absolute right-5 top-5 grid size-10 place-items-center rounded-full bg-primary/75 transition-colors hover:bg-primary/50'
-          >
-            <X className='stroke-secondary' />
-          </button>
-        </div>
+        <button
+          onClick={handleNavigateHome}
+          className='absolute right-5 top-5 grid size-10 place-items-center rounded-full bg-primary/75 transition-colors hover:bg-primary/50'
+        >
+          <X className='stroke-secondary' />
+        </button>
       </div>
     </>,
     document.body
   );
-};
-
-export default Modal;
+}

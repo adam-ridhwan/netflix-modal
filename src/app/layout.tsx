@@ -23,7 +23,7 @@ export default function RootLayout({ children, modal }: RootLayoutProps) {
     <html lang='en'>
       <body
         className={cn(
-          `${inter.className} relative flex min-h-dvh flex-col items-center justify-center overflow-x-hidden bg-white p-10`
+          `${inter.className} container relative flex min-h-dvh flex-col items-center justify-center overflow-x-hidden bg-white p-10`
         )}
       >
         {children}
