@@ -83,7 +83,7 @@ const Modal = ({ option }: ModalProps) => {
 
           <button
             onClick={() => router.push('/home', { scroll: false })}
-            className='absolute right-2 top-2 grid size-10 place-items-center rounded-full bg-primary/75 transition-colors hover:bg-primary/50'
+            className='absolute right-5 top-5 grid size-10 place-items-center rounded-full bg-primary/75 transition-colors hover:bg-primary/50'
           >
             <X className='stroke-secondary' />
           </button>
