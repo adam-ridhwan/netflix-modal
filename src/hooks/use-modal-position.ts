@@ -36,10 +36,11 @@ export const useModalPosition = (
       const initialWidth = Math.min(1400, window.innerWidth * 0.98);
 
       const scale = nodeRect.width / initialWidth;
-      const a = modalRect.height / 2;
-      const b = (modalRect.height * scale) / 2;
+      const modalHeightHalved = modalRect.height / 2;
+      const modalHeightScaledHalved = (modalRect.height * scale) / 2;
 
-      const initialTop = nodeRect.top - (a - b);
+      const initialTop =
+        nodeRect.top - (modalHeightHalved - modalHeightScaledHalved);
       const initialLeft = nodeRect.left - (initialWidth - nodeRect.width) / 2;
 
       setPosition({
