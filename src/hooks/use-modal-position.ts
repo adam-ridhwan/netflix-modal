@@ -24,6 +24,20 @@ export const useModalPosition = (
   });
 
   useEffect(() => {
+    const handleResize = () => {
+      const initialWidth = Math.min(1400, window.innerWidth * 0.98);
+      setPosition({
+        ...position,
+        width: initialWidth,
+        left: window.innerWidth / 2 - initialWidth / 2,
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [position]);
+
+  useEffect(() => {
     const node = document.getElementById(option);
     if (!node) return;
 
