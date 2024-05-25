@@ -34,16 +34,11 @@ export default function Modal({ id }: ModalProps) {
 
       <div
         ref={modalRef}
-        className='fixed z-50 min-h-[98%] divide-y rounded-t-lg bg-secondary'
         style={position}
+        className='fixed z-50 min-h-[98%] divide-y rounded-t-lg bg-secondary'
       >
         <div className='relative flex aspect-video min-w-full items-center justify-center overflow-hidden rounded-t-lg bg-secondary'>
-          <Image
-            src={thumbnails[id]}
-            alt={'ll'}
-            fill
-            className='object-cover'
-          />
+          <Image src={thumbnails[id]} alt={id} fill className='object-cover' />
         </div>
 
         <button
