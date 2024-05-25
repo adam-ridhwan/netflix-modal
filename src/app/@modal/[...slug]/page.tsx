@@ -1,9 +1,9 @@
-import { Options, options } from '@/lib/utils';
+import { ThumbnailId, thumbnails } from '@/lib/utils';
 import Modal from '@/components/modal';
 
 type ModalPageProps = {
   params: {
-    slug: Options;
+    slug: ThumbnailId;
   };
 };
 
@@ -13,8 +13,8 @@ const isEmpty = (obj: any) => Object.keys(obj).length === 0;
 export default async function ModalPage({ params }: ModalPageProps) {
   if (isEmpty(params)) return null;
 
-  const id = params.slug[0];
-  if (!options.includes(id)) return null;
+  const id = params.slug;
+  if (!(id in thumbnails)) return null;
 
-  return <Modal option={id} />;
+  return <Modal id={id} />;
 }

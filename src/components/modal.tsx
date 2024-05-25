@@ -1,26 +1,28 @@
 'use client';
 
 import { useRef } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { X } from 'lucide-react';
 import { createPortal } from 'react-dom';
 
+import { thumbnails } from '@/lib/utils';
 import { useClickOutside } from '@/hooks/use-click-outside';
 import { useEscapeKey } from '@/hooks/use-escape-key';
 import { useModalPosition } from '@/hooks/use-modal-position';
 import Overlay from '@/components/overlay';
 
 type ModalProps = {
-  option: string;
+  id: string;
 };
 
-export default function Modal({ option }: ModalProps) {
+export default function Modal({ id }: ModalProps) {
   const { push } = useRouter();
   const modalRef = useRef<HTMLDivElement>(null);
 
   const handleNavigateHome = () => push('/home', { scroll: false });
 
-  const { position } = useModalPosition(modalRef, option);
+  const { position } = useModalPosition(modalRef, id);
 
   useClickOutside(modalRef, handleNavigateHome);
 
@@ -32,10 +34,17 @@ export default function Modal({ option }: ModalProps) {
 
       <div
         ref={modalRef}
-        className='fixed z-50 grid min-h-[98%] place-items-center divide-y rounded-t-lg bg-secondary'
+        className='fixed z-50 min-h-[98%] divide-y rounded-t-lg bg-secondary'
         style={position}
       >
-        <p className='text-8xl'>{option}</p>
+        <div className='relative flex aspect-video min-w-full items-center justify-center overflow-hidden rounded-t-lg bg-secondary'>
+          <Image
+            src={thumbnails[id]}
+            alt={'ll'}
+            fill
+            className='object-cover'
+          />
+        </div>
 
         <button
           onClick={handleNavigateHome}

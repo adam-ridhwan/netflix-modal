@@ -17,7 +17,7 @@ type UseModalPositionReturn = {
 
 export const useModalPosition = (
   modalRef: RefObject<HTMLDivElement>,
-  option: string
+  id: string
 ): UseModalPositionReturn => {
   const [position, setPosition] = useState<Position>({
     opacity: '0',
@@ -38,7 +38,7 @@ export const useModalPosition = (
   }, [position]);
 
   useEffect(() => {
-    const node = document.getElementById(option);
+    const node = document.getElementById(id);
     if (!node) return;
 
     const nodeRect = node.getBoundingClientRect();
@@ -86,7 +86,7 @@ export const useModalPosition = (
     })();
 
     // eslint-disable-next-line
-  }, [option]);
+  }, [id]);
 
   return { position };
 };
